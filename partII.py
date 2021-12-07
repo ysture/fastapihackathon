@@ -93,3 +93,25 @@ async def get_customer_all_scores(customer_id:int):
      
     record = [dict((cur.description[i][0],value) for i, value in enumerate(row)) for row in records]
     return record
+
+
+# Endpoint to return top X customers with highest score from a prediction model.
+@app.get("/v1/Customer/AllScores/{model_name}")
+async def get_customer_all_scores(model_name:int, nrOfScores:int):
+
+    conn = psycopg2.connect(
+    host=host_server,
+    database=db_name,
+    user=db_username,
+    password=db_password)
+
+    cur = conn.cursor()
+
+    query = "Select * from fastapihackathon.CustomerScore where model_name = {model_name} ORDER BY score DESC LIMIT {nrOfScores}"
+
+    records = cur.execute(query,(model_name,))
+    
+    records = cur.fetchall()
+     
+    record = [dict((cur.description[i][0],value) for i, value in enumerate(row)) for row in records]
+    return record
