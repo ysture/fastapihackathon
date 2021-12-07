@@ -97,7 +97,7 @@ async def get_customer_all_scores(customer_id:int):
 
 # Endpoint to return top X customers with highest score from a prediction model.
 @app.get("/v1/Model/HighestScores/{model_name}")
-async def get_customers_highest_scores(model_name:str, nrOfScores:int):
+async def get_customers_highest_scores(model_name:str):
 
     conn = psycopg2.connect(
     host=host_server,
@@ -107,7 +107,7 @@ async def get_customers_highest_scores(model_name:str, nrOfScores:int):
 
     cur = conn.cursor()
 
-    query = "Select * from fastapihackathon.CustomerScore where model_name = {model_name} ORDER BY score DESC LIMIT {nrOfScores}"
+    query = "Select * from fastapihackathon.CustomerScore where model_name = {model_name} ORDER BY score DESC LIMIT 10"
 
     records = cur.execute(query,(model_name,))
     
