@@ -97,7 +97,7 @@ async def get_customer_all_scores(customer_id:int):
 
 # Endpoint to return top X customers with highest score from a prediction model.
 @app.get("/v1/Customer/AllScores/{model_name}")
-async def get_customer_all_scores(model_name:int, nrOfScores:int):
+async def get_customers_highest_scores(model_name:int, nrOfScores:int):
 
     conn = psycopg2.connect(
     host=host_server,
