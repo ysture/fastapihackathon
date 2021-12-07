@@ -75,7 +75,7 @@ async def get_customer_highest_prediction(customer_id:int):
 
 # Endpoint to request all available scores for a given customer
 @app.get("/v1/Customer/AllScores/{customer_id}")
-async def get_customer_highest_prediction(customer_id:int):
+async def get_customer_all_scores(customer_id:int):
 
     conn = psycopg2.connect(
     host=host_server,
