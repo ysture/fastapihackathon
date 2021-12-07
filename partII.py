@@ -71,3 +71,25 @@ async def get_customer_highest_prediction(customer_id:int):
      
     record = [dict((cur.description[i][0],value) for i, value in enumerate(row)) for row in records]
     return record
+
+
+# Endpoint to request all available scores for a given customer
+@app.get("/v1/Customer/AllScores/{customer_id}")
+async def get_customer_highest_prediction(customer_id:int):
+
+    conn = psycopg2.connect(
+    host=host_server,
+    database=db_name,
+    user=db_username,
+    password=db_password)
+
+    cur = conn.cursor()
+
+    query = "Select * from fastapihackathon.CustomerScore where customer_id = %s ORDER BY score DESC"
+
+    records = cur.execute(query,(customer_id,))
+    
+    records = cur.fetchall()
+     
+    record = [dict((cur.description[i][0],value) for i, value in enumerate(row)) for row in records]
+    return record
